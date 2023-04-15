@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon/favicon.png">
+    <link rel="stylesheet" href="style/style.css">
+    <title>ToDo's</title>
+</head>
+<body>
+    <button class="popupButton">popup</button>
+    <main>
+        <div class="popup">
+
+            <div class="name">
+                <button class="cancelAdd">
+                    <img src="images/cancel.svg" alt="cancel">
+                </button><br>
+                <input type="text" class="nameTodo" placeholder="Name">
+                <textarea name="Caption" class="captionAdd" placeholder="Caption..."></textarea>
+                <div class="different">
+                    <input type="radio" name="radio" id="radioOne">One<br>
+                    <input type="radio" name="radio" id="radioTime">Time<br>
+                    <input type="radio" name="radio" id="radioSum">Sum<br>
+                </div>
+                <div class="differentActive">
+                    <div class="activeTime">
+                        <h1>Hour</h1>
+                        <div class="listTimeHour">
+                            <ul class="clickTimeHour">
+                                <li class="hourTime">00</li>
+                                <li class="hourTime">01</li>
+                                <li class="hourTime">02</li>
+                                <li class="hourTime">03</li>
+                                <li class="hourTime">04</li>
+                                <li class="hourTime">05</li>
+                                <li class="hourTime">06</li>
+                                <li class="hourTime">07</li>
+                                <li class="hourTime">08</li>
+                                <li class="hourTime">09</li>
+                                <li class="hourTime">10</li>
+                                <li class="hourTime">11</li>
+                                <li class="hourTime">12</li>
+                                <li class="hourTime">13</li>
+                                <li class="hourTime">14</li>
+                                <li class="hourTime">15</li>
+                                <li class="hourTime">16</li>
+                                <li class="hourTime">17</li>
+                                <li class="hourTime">18</li>
+                                <li class="hourTime">19</li>
+                                <li class="hourTime">20</li>
+                                <li class="hourTime">21</li>
+                                <li class="hourTime">22</li>
+                                <li class="hourTime">23</li>
+                            </ul>
+                        </div>
+                        <h1>Minute</h1>  
+                        <div class="listTimeMinute">
+                            <ul class="clicktimeMinute">
+                                <li class="minuteTime">00</li>
+                                <li class="minuteTime">01</li>
+                                <li class="minuteTime">02</li>
+                                <li class="minuteTime">03</li>
+                                <li class="minuteTime">04</li>
+                                <li class="minuteTime">05</li>
+                                <li class="minuteTime">06</li>
+                                <li class="minuteTime">07</li>
+                                <li class="minuteTime">08</li>
+                                <li class="minuteTime">09</li>
+                                <li class="minuteTime">10</li>
+                                <li class="minuteTime">11</li>
+                                <li class="minuteTime">12</li>
+                                <li class="minuteTime">13</li>
+                                <li class="minuteTime">14</li>
+                                <li class="minuteTime">15</li>
+                                <li class="minuteTime">16</li>
+                                <li class="minuteTime">17</li>
+                                <li class="minuteTime">18</li>
+                                <li class="minuteTime">19</li>
+                                <li class="minuteTime">20</li>
+                                <li class="minuteTime">21</li>
+                                <li class="minuteTime">22</li>
+                                <li class="minuteTime">23</li>
+                                <li class="minuteTime">24</li>
+                                <li class="minuteTime">25</li>
+                                <li class="minuteTime">26</li>
+                                <li class="minuteTime">27</li>
+                                <li class="minuteTime">28</li>
+                                <li class="minuteTime">29</li>
+                                <li class="minuteTime">30</li>
+                                <li class="minuteTime">31</li>
+                                <li class="minuteTime">32</li>
+                                <li class="minuteTime">33</li>
+                                <li class="minuteTime">34</li>
+                                <li class="minuteTime">35</li>
+                                <li class="minuteTime">36</li>
+                                <li class="minuteTime">37</li>
+                                <li class="minuteTime">38</li>
+                                <li class="minuteTime">39</li>
+                                <li class="minuteTime">40</li>
+                                <li class="minuteTime">41</li>
+                                <li class="minuteTime">42</li>
+                                <li class="minuteTime">43</li>
+                                <li class="minuteTime">44</li>
+                                <li class="minuteTime">45</li>
+                                <li class="minuteTime">46</li>
+                                <li class="minuteTime">47</li>
+                                <li class="minuteTime">48</li>
+                                <li class="minuteTime">49</li>
+                                <li class="minuteTime">50</li>
+                                <li class="minuteTime">51</li>
+                                <li class="minuteTime">52</li>
+                                <li class="minuteTime">53</li>
+                                <li class="minuteTime">54</li>
+                                <li class="minuteTime">55</li>
+                                <li class="minuteTime">56</li>
+                                <li class="minuteTime">57</li>
+                                <li class="minuteTime">58</li>
+                                <li class="minuteTime">59</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="activeSum">
+                        <button class="upCounter">Up</button>
+                        <h1 class="counter">0</h1>
+                        <button class="downCounter">Down</button>
+                    </div>
+                </div>
+                <button class="createAdd">Create Add</button>
+            </div>
+
+            <div class="settings">
+                <button class="closeSettings">
+                    <img src="images/cancel.svg" alt="cancel">
+                </button>
+                <h1 class="nameSettings">Name:</h1>
+                <p class="caption"></p>
+                <div class="sum">
+                        <button class="upCounterSettings">Up</button>
+                        <h1 class="counterSettings">/</h1>
+                        <button class="downCounterSettings">Down</button>
+                </div>
+                <div class="time">
+                    <h1 class="settingsTime">00:00:00</h1>
+                    <h1 class="timer">00:00:00</h1>
+                    <button class="startTime">Start</button>
+                    <button class="stopTime">Stop</button>    
+            </div>
+                <button class="delete">Delete</button>
+            </div>
+        </div>
+
+        <div class="content2">
+            <div class="list">
+                <ul class="listToDo">
+                </ul>
+            </div>
+            <button class="addTodo">Add ToDo</button>
+        </div>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>
