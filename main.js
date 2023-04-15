@@ -1,19 +1,32 @@
 // Глобальные переменные
 let i = 0
+let maxI = 0
 
+// Глобальные переменные переопределяющие html-tag's
 let popup = document.querySelector('.popup')
 let closePopUpSettings = document.querySelector('.closeSettings')
+
 let radioTime = document.querySelector('#radioTime')
 let radioSum = document.querySelector('#radioSum')
 let radioOne = document.querySelector('#radioOne')
+
 let activeSum = document.querySelector('.activeSum')
+
 let activeTime = document.querySelector('.activeTime')
 let liTimeHour = document.querySelectorAll('.hourTime')
 let liTimeMinute = document.querySelectorAll('.minuteTime')
 
+let addTodoButton = document.querySelector('.addTodo')
+let popUpButton = document.querySelector('.popupButton')
+
 let upSet = document.querySelector('.upCounterSettings')
 let downSet = document.querySelector('.downCounterSettings')
 
+// Навешиваем функции на PopUp's
+popUpButton.onclick = PopUp
+addTodoButton.onclick = addTodo
+
+//All function
 for(let key in localStorage) {  //! Запись данных после перезагрузки
     if (!localStorage.hasOwnProperty(key)) {
       continue; // пропустит такие ключи, как "setItem", "getItem" и так далее
@@ -21,20 +34,19 @@ for(let key in localStorage) {  //! Запись данных после пер�
     let settings = JSON.parse(localStorage.getItem(key)) // Парсим данные ключа
 
     if (settings.diffrentToDo == 'Sum'){
-        resetSum(settings.number, settings.nameTodo, settings.caption, settings)
+        addSum(settings.number, settings.nameTodo, settings.caption, settings)
     } else if (settings.diffrentToDo == 'Time'){
-        resetTime (settings.number, settings.nameTodo, settings.caption, settings)
+        addTime (settings.number, settings.nameTodo, settings.caption, settings)
     } else if (settings.diffrentToDo == 'One'){
-        resetOne(settings.number, settings.nameTodo, settings.caption, settings)
+        addOne(settings.number, settings.nameTodo, settings.caption, settings)
     }
-
-    i = localStorage.length
     if (i <= settings.number){ //! Присваиваем i значение наибольшего ключа
         i = settings.number+1
     }
+    console.log(i, settings.number)
 }
 
-function resetSum (i, nameTodo, caption, settings) {
+function addSum (i, nameTodo, caption, settings) {
     let sumTodo = settings.sumTodo
     let sum = settings.sum
     let upSet = document.querySelector('.upCounterSettings')
@@ -82,11 +94,12 @@ function resetSum (i, nameTodo, caption, settings) {
 
         h1.onclick = () => {  //! Эта функция вызывает окно со всеми введеными значениями при создании
             PopUpSetting()  //! Тотже PopUp но предназначенный для отображения свойств ToDo, при его вызове просто подклчаются другие стили Css
+
+            document.querySelector('.sum').style.display = 'flex'
+            document.querySelector('.time').style.display = 'none'
     
             document.querySelector('.nameSettings').innerHTML = `Name: ${nameTodo}` // Помещаем в свойства название ToDo по которому нажали 
             document.querySelector('.caption').innerHTML = `Caption: ${caption}`
-            
-            document.querySelector('.sum').style.display = 'flex'
     
             counterSet.innerHTML = `${sumTodo}/${sum}`
 
@@ -137,7 +150,7 @@ function resetSum (i, nameTodo, caption, settings) {
         }
 }
 
-function resetOne (i, nameTodo, caption, settings) {
+function addOne (i, nameTodo, caption, settings) {
     let li = document.createElement('li')
     li.className = `newTodo${i}`
     document.querySelector('.listToDo').append(li);  // Поещаем li внутрь ul
@@ -175,10 +188,11 @@ function resetOne (i, nameTodo, caption, settings) {
     h1.onclick = () => {  //! Эта функция вызывает окно со всеми введеными значениями при создании
         PopUpSetting()  //! Тотже PopUp но предназначенный для отображения свойств ToDo, при его вызове просто подклчаются другие стили Css
 
+        document.querySelector('.sum').style.display = 'none'
+        document.querySelector('.time').style.display = 'none'
+
         document.querySelector('.nameSettings').innerHTML = `Name: ${nameTodo}` // Помещаем в свойства название ToDo по которому нажали 
         document.querySelector('.caption').innerHTML = `Caption: ${caption}`
-        
-        document.querySelector('.sum').style.display = 'none'
 
         document.querySelector('.delete').onclick = () => {  //! Функция удаления ToDo
         li.remove()  // Удаляем весь элемент из окна с ToDo's
@@ -190,7 +204,7 @@ function resetOne (i, nameTodo, caption, settings) {
     }
 }
 
-function resetTime (i, nameTodo, caption, settings) {
+function addTime (i, nameTodo, caption, settings) {
     let hour = settings.hourSet
     let minute = settings.minuteSet
     let second = settings.secondSet
@@ -266,6 +280,9 @@ function resetTime (i, nameTodo, caption, settings) {
     h1.onclick = () => {  //! Эта функция вызывает окно со всеми введеными значениями при создании
         PopUpSetting(h1)  //! Тотже PopUp но предназначенный для отображения свойств ToDo, при его вызове просто подклчаются другие стили Css
 
+        document.querySelector('.time').style.display = 'block'
+        document.querySelector('.sum').style.display = 'none'
+
         document.querySelector('.nameSettings').innerHTML = `Name: ${nameTodo}` // Помещаем в свойства название ToDo по которому нажали 
         document.querySelector('.caption').innerHTML = `Caption: ${caption}`
         getStorage(i)
@@ -306,9 +323,6 @@ function resetTime (i, nameTodo, caption, settings) {
 }  
 }  
 
-document.querySelector('.popupButton').onclick = PopUp
-document.querySelector('.addTodo').onclick = addTodo
-
 function PopUp () {
     if (popup.classList.value === 'popup'){
         popup.classList.add('content1')
@@ -320,6 +334,26 @@ function PopUp () {
 function clearSettigns () {  //! Функция очещает поля в случае отмены
     document.querySelector('.nameTodo').value = ''  // Очищаем input после создания ToDo
     document.querySelector('.captionAdd').value = ''  // Берем значения из TextArea
+
+    radioTime.checked = false
+    radioOne.checked = false
+    radioSum.checked = false
+
+    document.querySelector('.counter').innerHTML ='0'
+
+    for (let hourTimesActive of liTimeHour) {
+        if(hourTimesActive.style.color == 'white'){
+            hourTimesActive.style.color == 'black'
+        }
+    }
+    for (let minutesTimesActive of liTimeMinute) {
+        if(minutesTimesActive.style.color == 'white'){
+            minutesTimesActive.style.color == 'black'
+        }
+    }
+
+    activeSum.style.display = 'none'
+    activeTime.style.display = 'none'
 }
 
 function radio () {
@@ -564,16 +598,15 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
         document.querySelector('.caption').innerHTML = `Caption: ${caption}`
         getStorage(i)
         
-        if (diffrentToDo === 'Time'){
-            PopUpSetting()  //! Тотже PopUp но предназначенный для отображения свойств ToDo, при его вызове просто подклчаются другие стили Css
+        if (diffrentToDo == 'Time'){
+            document.querySelector('.sum').style.display = 'none'
+            document.querySelector('.time').style.display = 'block'
 
-        document.querySelector('.nameSettings').innerHTML = `Name: ${nameTodo}` // Помещаем в свойства название ToDo по которому нажали 
-        document.querySelector('.caption').innerHTML = `Caption: ${caption}`
-        document.querySelector('.settingsTime').innerHTML = `Time: ${hour}:${minute}:${second}`
-        document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
+            document.querySelector('.settingsTime').innerHTML = `Time: ${hour}:${minute}:${second}`
+            document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
 
-        document.querySelector('.startTime').onclick = () => {
-           add = setInterval(secondMin, 1000)
+            document.querySelector('.startTime').onclick = () => {
+            add = setInterval(secondMin, 1000)
         }
 
         document.querySelector('.stopTime').onclick = () => {
@@ -586,7 +619,7 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
          }
         
         document.querySelector('.sum').style.display = 'none'
-        document.querySelector('.time').style.display = 'block'
+        document.querySelector('.time').style.display = 'flex'
 
         document.querySelector('.delete').onclick = () => {  //! Функция удаления ToDo
         li.remove()  // Удаляем весь элемент из окна с ToDo's
@@ -596,15 +629,11 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
         --i
         }
 
-            document.querySelector('.sum').style.display = 'none'
-            document.querySelector('.time').style.display = 'block'
-
-        }else if (diffrentToDo === 'Sum'){
-
-            counterSet.innerHTML = `${sumTodo}/${sum}` 
-
+        }else if (diffrentToDo == 'Sum'){
             document.querySelector('.sum').style.display = 'flex'
             document.querySelector('.time').style.display = 'none'
+
+            counterSet.innerHTML = `${sumTodo}/${sum}` 
 
             upSet.onclick = () => {
                 getStorage(i)
@@ -620,26 +649,26 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
                 localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
                 } 
         
-                downSet.onclick = () => {
-                    getStorage(i)
+            downSet.onclick = () => {
+                getStorage(i)
                     
-                    if (settings.sumTodo > 0){
-                        --settings.sumTodo
-                        button.innerHTML = `${settings.sumTodo}/${settings.sum}`
-                        counterSet.innerHTML = `${settings.sumTodo}/${settings.sum}` 
-                    }
-                    if (settings.sumTodo >= settings.sum){
-                        li.style.textDecoration = "line-through"
-                    } else {
-                        li.style.textDecoration = "none"
-                    }
-        
-                    localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
+                if (settings.sumTodo > 0){
+                    --settings.sumTodo
+                    button.innerHTML = `${settings.sumTodo}/${settings.sum}`
+                    counterSet.innerHTML = `${settings.sumTodo}/${settings.sum}` 
+                }
+                if (settings.sumTodo >= settings.sum){
+                    li.style.textDecoration = "line-through"
+                } else {
+                    li.style.textDecoration = "none"
+                }
+    
+                localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
                 }
 
-        }else if (diffrentToDo === 'One'){
+        }else if (diffrentToDo == 'One'){
             document.querySelector('.sum').style.display = 'none'
-           document.querySelector('.time').style.display = 'none'
+            document.querySelector('.time').style.display = 'none'
         }
 
         document.querySelector('.delete').onclick = () => {  //! Функция удаления ToDo
@@ -713,51 +742,9 @@ function PopUpSetting (h1) {
     } else if (popup.classList.value === 'content1Settigns' && h1.onclick == true) {
         document.querySelector('.nameSettings').innerHTML = `Name: ${nameTodo}` // Помещаем в свойства название ToDo по которому нажали 
         document.querySelector('.caption').innerHTML = `Caption: ${caption}`
-        upSet.style.display = 'block'
-        downSet.style.display = 'block'
-    } else if (document.querySelector('.closeSettings').onclick == true)
-    document.querySelector('.closeSettings').onclick = () => {
-        popup.classList.remove('content1Settigns')
-    }
-
-    document.querySelector('.delete').onclick = () => {
-        upSet.style.display = 'none'
-        downSet.style.display = 'none'
-        popup.classList.remove('content1Settigns')
     }
 
     document.querySelector('.closeSettings').onclick = () => {
         popup.classList.remove('content1Settigns')
     }
 }
-
-
-// document.querySelector('li').onclick = watchSettings
-// function watchSettings () {
-//     console.log('bleat')
-// }
-
-// document.querySelector('li').addEventListener("click", (e) => {
-//     let dot = document.createElement("h1");
-//     dot.innerHTML = "dot";
-//     document.querySelector('main').append(dot);
-//   })
-
-// let popupBg = document.querySelector('.popup__bg'); // Фон попап окна
-// let popup = document.querySelector('.popup'); // Само окно
-// let openPopupButtons = document.querySelectorAll('.about'); // Кнопки для показа окна
-
-// openPopupButtons.forEach((button) => { // Перебираем все кнопки
-//     button.addEventListener('click', (e) => { // Для каждой вешаем обработчик событий на клик
-//         e.preventDefault(); // Предотвращаем дефолтное поведение браузера
-//         popupBg.classList.add('active'); // Добавляем класс 'active' для фона
-//         popup.classList.add('active'); // И для самого окна
-//     })
-// });
-
-// document.addEventListener('click', (e) => { // Вешаем обработчик на весь документ
-//     if(e.target === popupBg || e.target === popup) { // Если цель клика - фон, то:
-//         popupBg.classList.remove('active'); // Убираем активный класс с фона
-//         popup.classList.remove('active'); // И с окна
-//     }
-// })
