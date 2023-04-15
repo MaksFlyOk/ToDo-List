@@ -208,6 +208,17 @@ function addTime (i, nameTodo, caption, settings) {
     let hour = settings.hourSet
     let minute = settings.minuteSet
     let second = settings.secondSet
+
+    if (String(hour).length < 2){
+        hour = `0${String(hour)}`
+    }
+    if (String(minute).length < 2){
+        minute = `0${String(minute)}`
+    }
+    if (String(second).length < 2){
+        second = `0${String(second)}`
+    }
+
     let button = document.createElement('button')
 
     let li = document.createElement('li')
@@ -225,24 +236,48 @@ function addTime (i, nameTodo, caption, settings) {
         function secondMin () {
 
             if (hour == 0 && minute == 0 && second == 0){
+                getStorage(i)
+                settings.hourSet = hour
+                settings.minuteSet = minute
+                settings.secondSet = second
+                localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
                 clearInterval(add)
                 li.style.textDecoration = "line-through"
                 return 0
             }
-            if (second == 0){
+            if (second == 0 && minute != 0){
                 --minute
-                second += 59
+                second += 60
+            }
+            if (second == 0){
+                second += 60
             }
             if (minute == 0 && hour != 0){
                 --hour
-                minute += 59
+                minute = 59
             }
 
             --second
 
+            getStorage(i)
+            settings.hourSet = hour
+            settings.minuteSet = minute
+            settings.secondSet = second
+            localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
+
+            if (String(hour).length == 1){
+                hour = `0${String(hour)}`
+            }
+            if (String(minute).length == 1){
+                console.log(String(minute).length)
+                minute = `0${String(minute)}`
+            }
+            if (String(second).length == 1){
+                second = `0${String(second)}`
+            }
+
             document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
             button.innerHTML = `${hour}:${minute}:${second}`
-            console.log(second)
         }
 
         button.onclick = () => {   //! Эта функция зачеркивает выполненный ToDo, или же в случае ошибки убирает зачеркивание
@@ -326,8 +361,25 @@ function addTime (i, nameTodo, caption, settings) {
 function PopUp () {
     if (popup.classList.value === 'popup'){
         popup.classList.add('content1')
+        document.querySelector('.content2').style.borderRadius = '0 20px 20px 0'
     } else{
         popup.classList.remove('content1')
+        document.querySelector('.content2').style.borderRadius = '20px 20px 20px 20px'
+    }
+}
+
+function PopUpSetting (h1) {
+    if (popup.classList.value === 'popup'){
+        popup.classList.add('content1Settigns')
+        document.querySelector('.content2').style.borderRadius = '0 20px 20px 0'
+    } else if (popup.classList.value === 'content1Settigns' && h1.onclick == true) {
+        document.querySelector('.nameSettings').innerHTML = `Name: ${nameTodo}` // Помещаем в свойства название ToDo по которому нажали 
+        document.querySelector('.caption').innerHTML = `Caption: ${caption}`
+    }
+
+    document.querySelector('.closeSettings').onclick = () => {
+        popup.classList.remove('content1Settigns')
+        document.querySelector('.content2').style.borderRadius = '20px 20px 20px 20px'
     }
 }
 
@@ -343,12 +395,12 @@ function clearSettigns () {  //! Функция очещает поля в сл�
 
     for (let hourTimesActive of liTimeHour) {
         if(hourTimesActive.style.color == 'white'){
-            hourTimesActive.style.color == 'black'
+            hourTimesActive.style.color = 'black'
         }
     }
     for (let minutesTimesActive of liTimeMinute) {
         if(minutesTimesActive.style.color == 'white'){
-            minutesTimesActive.style.color == 'black'
+            minutesTimesActive.style.color = 'black'
         }
     }
 
@@ -472,7 +524,6 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
     document.querySelector(`.newTodo${i}`).append(h1);
 
     if (diffrentToDo === 'Time'){
-
         getStorage(i)
         settings.hour = hour
         settings.minute = minute
@@ -482,26 +533,51 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
         localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
 
         button.className = "completeTodo"
-        button.innerHTML = `${hour}:${minute}:${second}`
+        button.innerHTML = `${hour}:${minute}:00`
         document.querySelector(`.newTodo${i}`).append(button);  // Помещаем кнопку Complete внутри li
 
         function secondMin () {
 
             if (hour == 0 && minute == 0 && second == 0){
+                getStorage(i)
+                settings.hourSet = hour
+                settings.minuteSet = minute
+                settings.secondSet = second
+                localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
                 clearInterval(add)
                 li.style.textDecoration = "line-through"
                 return 0
             }
-            if (second == 0){
+            if (second == 0 && minute != 0){
                 --minute
-                second += 59
+                second += 60
+            }
+            if (second == 0){
+                second += 60
             }
             if (minute == 0 && hour != 0){
                 --hour
-                minute += 59
+                minute = 59
             }
 
             --second
+
+            getStorage(i)
+            settings.hourSet = hour
+            settings.minuteSet = minute
+            settings.secondSet = second
+            localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
+
+            if (String(hour).length == 1){
+                hour = `0${String(hour)}`
+            }
+            if (String(minute).length == 1){
+                console.log(String(minute).length)
+                minute = `0${String(minute)}`
+            }
+            if (String(second).length == 1){
+                second = `0${String(second)}`
+            }
 
             document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
             button.innerHTML = `${hour}:${minute}:${second}`
@@ -511,9 +587,20 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
         button.onclick = () => {   //! Эта функция зачеркивает выполненный ToDo, или же в случае ошибки убирает зачеркивание
             PopUpSetting()  //! Тотже PopUp но предназначенный для отображения свойств ToDo, при его вызове просто подклчаются другие стили Css
 
+            if (String(hour).length == 1){
+                hour = `0${String(hour)}`
+            }
+            if (String(minute).length == 1){
+                console.log(String(minute).length)
+                minute = `0${String(minute)}`
+            }
+            if (String(second).length == 1){
+                second = `0${String(second)}`
+            }
+
         document.querySelector('.nameSettings').innerHTML = `Name: ${nameTodo}` // Помещаем в свойства название ToDo по которому нажали 
         document.querySelector('.caption').innerHTML = `Caption: ${caption}`
-        document.querySelector('.settingsTime').innerHTML = `Time: ${hour}:${minute}:${second}`
+        document.querySelector('.settingsTime').innerHTML = `Time: ${hour}:${minute}:00`
         document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
 
         document.querySelector('.startTime').onclick = () => {
@@ -602,7 +689,18 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
             document.querySelector('.sum').style.display = 'none'
             document.querySelector('.time').style.display = 'block'
 
-            document.querySelector('.settingsTime').innerHTML = `Time: ${hour}:${minute}:${second}`
+            if (String(hour).length == 1){
+                hour = `0${String(hour)}`
+            }
+            if (String(minute).length == 1){
+                console.log(String(minute).length)
+                minute = `0${String(minute)}`
+            }
+            if (String(second).length == 1){
+                second = `0${String(second)}`
+            }
+
+            document.querySelector('.settingsTime').innerHTML = `Time: ${hour}:${minute}:00`
             document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
 
             document.querySelector('.startTime').onclick = () => {
@@ -617,12 +715,10 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
             settings.secondSet = second
             localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
          }
-        
-        document.querySelector('.sum').style.display = 'none'
-        document.querySelector('.time').style.display = 'flex'
 
         document.querySelector('.delete').onclick = () => {  //! Функция удаления ToDo
         li.remove()  // Удаляем весь элемент из окна с ToDo's
+        clearInterval(add)
         localStorage.removeItem(`newTodo${settings.number}`)  // Чистим LocalStorage от конкретного ToDo
 
         popup.classList.remove('content1Settigns') // Закрываем окно с свойствами
@@ -633,7 +729,7 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
             document.querySelector('.sum').style.display = 'flex'
             document.querySelector('.time').style.display = 'none'
 
-            counterSet.innerHTML = `${sumTodo}/${sum}` 
+            counterSet.innerHTML = `${settings.sumTodo}/${settings.sum}` 
 
             upSet.onclick = () => {
                 getStorage(i)
@@ -672,15 +768,14 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
         }
 
         document.querySelector('.delete').onclick = () => {  //! Функция удаления ToDo
-        li.remove()  // Удаляем весь элемент из окна с ToDo's
-        localStorage.removeItem(`newTodo${settings.number}`)  // Чистим LocalStorage от конкретного ToDo
+            clearInterval(add)
+            li.remove()  // Удаляем весь элемент из окна с ToDo's
+            localStorage.removeItem(`newTodo${settings.number}`)  // Чистим LocalStorage от конкретного ToDo
 
-        popup.classList.remove('content1Settigns') // Закрываем окно с свойствами
-        --i
+            popup.classList.remove('content1Settigns') // Закрываем окно с свойствами
+            --i
         }
     }
-
-    // return i, li, h1, button, diffrentToDo
 }
 
 function getStorage (number) {
@@ -733,18 +828,5 @@ function addTodo () {
         clearSettigns()
 
         --i
-    }
-}
-
-function PopUpSetting (h1) {
-    if (popup.classList.value === 'popup'){
-        popup.classList.add('content1Settigns')
-    } else if (popup.classList.value === 'content1Settigns' && h1.onclick == true) {
-        document.querySelector('.nameSettings').innerHTML = `Name: ${nameTodo}` // Помещаем в свойства название ToDo по которому нажали 
-        document.querySelector('.caption').innerHTML = `Caption: ${caption}`
-    }
-
-    document.querySelector('.closeSettings').onclick = () => {
-        popup.classList.remove('content1Settigns')
     }
 }

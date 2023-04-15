@@ -16,7 +16,7 @@
     font-size: 8px;
 }
 body{
-    background-color: #CCCCCC;
+    background-color: #1E1E1E;
     width: 100%;
     height: 100%;
 }
@@ -45,21 +45,19 @@ main {
 }
 
 .content1{
-    background-color: rgb(245, 19, 19);
+    background-color: #CCCCCC;
+    border-radius: 20px 0 0 20px;
     min-width: 50%;
     min-height: 100%;
     display: block;
-
-    // background: #CCCCCC;
-    // box-shadow: -4px -4px 6px rgba(255, 255, 255, 0.4), 4px -4px 6px rgba(0, 0, 0, 0.4);
-    // border-radius: 20px;
     
     .name{
         display: block;
     }
 }
 .content1Settigns{
-    background-color: rgb(224, 21, 21);
+    background-color: #CCCCCC;
+    border-radius: 20px 0 0 20px;
     min-width: 50%;
     min-height: 100%;
     
@@ -107,10 +105,12 @@ main {
 
 
 .content2{
-    background-color: rgb(0, 255, 229);
+    background-color: #CCCCCC;
+    border-radius: 20px 20px 20px 20px;
     min-width: 50%;
     max-width: 50%;
     min-height: 100%;
+    padding: 1vw 1vh;
 }
 .list{
     height:80%;
