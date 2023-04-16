@@ -17,13 +17,11 @@ let liTimeHour = document.querySelectorAll('.hourTime')
 let liTimeMinute = document.querySelectorAll('.minuteTime')
 
 let addTodoButton = document.querySelector('.addTodo')
-let popUpButton = document.querySelector('.popupButton')
 
 let upSet = document.querySelector('.upCounterSettings')
 let downSet = document.querySelector('.downCounterSettings')
 
 // Навешиваем функции на PopUp's
-popUpButton.onclick = PopUp
 addTodoButton.onclick = addTodo
 
 //All function
@@ -143,7 +141,8 @@ function addSum (i, nameTodo, caption, settings) {
             document.querySelector('.delete').onclick = () => {  //! Функция удаления ToDo
                 li.remove()  // Удаляем весь элемент из окна с ToDo's
                 localStorage.removeItem(`newTodo${settings.number}`)  // Чистим LocalStorage от конкретного ToDo
-        
+
+                document.querySelector('.content2').style.borderRadius = '20px 20px 20px 20px'
                 popup.classList.remove('content1Settigns') // Закрываем окно с свойствами
                 --i
             }
@@ -197,7 +196,8 @@ function addOne (i, nameTodo, caption, settings) {
         document.querySelector('.delete').onclick = () => {  //! Функция удаления ToDo
         li.remove()  // Удаляем весь элемент из окна с ToDo's
         localStorage.removeItem(`newTodo${settings.number}`)  // Чистим LocalStorage от конкретного ToDo
-
+        
+        document.querySelector('.content2').style.borderRadius = '20px 20px 20px 20px'
         popup.classList.remove('content1Settigns') // Закрываем окно с свойствами
         --i
         }
@@ -229,6 +229,10 @@ function addTime (i, nameTodo, caption, settings) {
     h1.innerHTML = `${nameTodo}`  // Вставляем значение в окно со всеми ToDo's
     document.querySelector(`.newTodo${i}`).append(h1);
 
+    if (settings.isCompleted == true){
+        li.style.textDecoration = "line-through"
+    }
+
         button.className = "completeTodo"
         button.innerHTML = `${hour}:${minute}:${second}`
         document.querySelector(`.newTodo${i}`).append(button);  // Помещаем кнопку Complete внутри li
@@ -240,6 +244,7 @@ function addTime (i, nameTodo, caption, settings) {
                 settings.hourSet = hour
                 settings.minuteSet = minute
                 settings.secondSet = second
+                settings.isCompleted = true
                 localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
                 clearInterval(add)
                 li.style.textDecoration = "line-through"
@@ -308,6 +313,7 @@ function addTime (i, nameTodo, caption, settings) {
         li.remove()  // Удаляем весь элемент из окна с ToDo's
         localStorage.removeItem(`newTodo${settings.number}`)  // Чистим LocalStorage от конкретного ToDo
 
+        document.querySelector('.content2').style.borderRadius = '20px 20px 20px 20px'
         popup.classList.remove('content1Settigns') // Закрываем окно с свойствами
         --i
         }
@@ -470,7 +476,7 @@ function timeClick () {
                 if(hourTimesActive.innerHTML == hour){
                     hourTimesActive.style.color = 'white'
                 } else{
-                    hourTimesActive.style.color = 'black'
+                    hourTimesActive.style.color = '#929292'
                 }
             }
             return hour
@@ -486,7 +492,7 @@ function timeClick () {
                 if(minuteTimesActive.innerHTML == minute){
                     minuteTimesActive.style.color = 'white'
                 } else{
-                    minuteTimesActive.style.color = 'black'
+                    minuteTimesActive.style.color = '#929292'
                 }
             }
             return minute
@@ -530,6 +536,7 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
         settings.hourSet = hour
         settings.minuteSet = minute
         settings.secondSet = 0
+        settings.isCompleted = false
         localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
 
         button.className = "completeTodo"
@@ -543,6 +550,7 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
                 settings.hourSet = hour
                 settings.minuteSet = minute
                 settings.secondSet = second
+                settings.isCompleted = true
                 localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
                 clearInterval(add)
                 li.style.textDecoration = "line-through"
@@ -768,11 +776,12 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
         }
 
         document.querySelector('.delete').onclick = () => {  //! Функция удаления ToDo
-            clearInterval(add)
             li.remove()  // Удаляем весь элемент из окна с ToDo's
             localStorage.removeItem(`newTodo${settings.number}`)  // Чистим LocalStorage от конкретного ToDo
 
             popup.classList.remove('content1Settigns') // Закрываем окно с свойствами
+            document.querySelector('.content2').style.borderRadius = '20px 20px 20px 20px'
+
             --i
         }
     }
