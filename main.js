@@ -41,7 +41,6 @@ for(let key in localStorage) {  //! Запись данных после пер�
     if (i <= settings.number){ //! Присваиваем i значение наибольшего ключа
         i = settings.number+1
     }
-    console.log(i, settings.number)
 }
 
 function addSum (i, nameTodo, caption, settings) {
@@ -208,6 +207,9 @@ function addTime (i, nameTodo, caption, settings) {
     let hour = settings.hourSet
     let minute = settings.minuteSet
     let second = settings.secondSet
+    let secondBar = settings.secondBar
+    let progress = 0
+    let onePercent = 100/secondBar
 
     if (String(hour).length < 2){
         hour = `0${String(hour)}`
@@ -261,6 +263,10 @@ function addTime (i, nameTodo, caption, settings) {
                 --hour
                 minute = 59
             }
+            if (progress < 100){
+                progress += onePercent
+                document.querySelector('.bar').style.width = `${progress}%`
+            }
 
             --second
 
@@ -268,6 +274,7 @@ function addTime (i, nameTodo, caption, settings) {
             settings.hourSet = hour
             settings.minuteSet = minute
             settings.secondSet = second
+            settings.progress = progress
             localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
 
             if (String(hour).length == 1){
@@ -292,6 +299,7 @@ function addTime (i, nameTodo, caption, settings) {
         document.querySelector('.caption').innerHTML = `Caption: ${caption}`
         document.querySelector('.settingsTime').innerHTML = `Time: ${settings.hour}:${settings.minute}:00`
         document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
+        document.querySelector('.bar').style.width = `${settings.progress}%`
 
         document.querySelector('.startTime').onclick = () => {
            add = setInterval(secondMin, 1000)
@@ -334,6 +342,7 @@ function addTime (i, nameTodo, caption, settings) {
         document.querySelector('.caption').innerHTML = `Caption: ${caption}`
         document.querySelector('.settingsTime').innerHTML = `Time: ${settings.hour}:${settings.minute}:00`
         document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
+        document.querySelector('.bar').style.width = `${settings.progress}%`
 
         document.querySelector('.startTime').onclick = () => {
            add = setInterval(secondMin, 1000)
@@ -401,12 +410,12 @@ function clearSettigns () {  //! Функция очещает поля в сл�
 
     for (let hourTimesActive of liTimeHour) {
         if(hourTimesActive.style.color == 'white'){
-            hourTimesActive.style.color = 'black'
+            hourTimesActive.style.color = '#929292'
         }
     }
     for (let minutesTimesActive of liTimeMinute) {
         if(minutesTimesActive.style.color == 'white'){
-            minutesTimesActive.style.color = 'black'
+            minutesTimesActive.style.color = '#929292'
         }
     }
 
@@ -509,6 +518,9 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
     let second = 0
     let counterSet = document.querySelector('.counterSettings')
     let button = document.createElement('button')
+    let secondBar = 0
+    let progress = 0
+    let onePercent = 0
 
     for (let hourTimesActive of liTimeHour) {
         if(hourTimesActive.style.color == 'white'){
@@ -530,11 +542,15 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
     document.querySelector(`.newTodo${i}`).append(h1);
 
     if (diffrentToDo === 'Time'){
+        secondBar = (hour*3600)+(minute*60)
+        onePercent = 100/secondBar
         getStorage(i)
         settings.hour = hour
         settings.minute = minute
         settings.hourSet = hour
         settings.minuteSet = minute
+        settings.secondBar = secondBar
+        settings.progress = progress
         settings.secondSet = 0
         settings.isCompleted = false
         localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
@@ -567,6 +583,10 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
                 --hour
                 minute = 59
             }
+            if (progress < 100){
+                progress += onePercent
+                document.querySelector('.bar').style.width = `${progress}%`
+            }
 
             --second
 
@@ -574,6 +594,7 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
             settings.hourSet = hour
             settings.minuteSet = minute
             settings.secondSet = second
+            settings.progress = progress
             localStorage.setItem(`newTodo${i}`, JSON.stringify(settings))
 
             if (String(hour).length == 1){
@@ -610,6 +631,7 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
         document.querySelector('.caption').innerHTML = `Caption: ${caption}`
         document.querySelector('.settingsTime').innerHTML = `Time: ${hour}:${minute}:00`
         document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
+        document.querySelector('.bar').style.width = `${progress}%`
 
         document.querySelector('.startTime').onclick = () => {
            add = setInterval(secondMin, 1000)
@@ -710,6 +732,7 @@ function createLi (i, nameTodo, caption, settings, diffrentToDo) {
 
             document.querySelector('.settingsTime').innerHTML = `Time: ${hour}:${minute}:00`
             document.querySelector('.timer').innerHTML = `Timer: ${hour}:${minute}:${second}`
+            document.querySelector('.bar').style.width = `${progress}%`
 
             document.querySelector('.startTime').onclick = () => {
             add = setInterval(secondMin, 1000)

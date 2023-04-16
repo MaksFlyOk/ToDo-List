@@ -404,9 +404,10 @@ input[type=radio]:checked:hover {
 
 .timerSettings {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
 }
 .timerSettings h1 {
+  margin: 0 auto;
   width: -moz-max-content;
   width: max-content;
   padding: 2px 5px;
@@ -424,6 +425,29 @@ input[type=radio]:checked:hover {
   transition: all 0.5s;
   margin-bottom: 1.5vh;
   margin-top: 1.2vh;
+}
+
+.progressBar {
+  margin: 0 auto;
+  height: 16px;
+  width: 20vw;
+  border-radius: 150px;
+  background: #CCCCCC;
+  box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.4), 2px 2px 4px rgba(0, 0, 0, 0.4), inset -1px -1px 4px rgba(255, 255, 255, 0.4), inset 1px 1px 4px rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 0 5px;
+  margin-bottom: 2vh;
+}
+
+.bar {
+  border-radius: 150px;
+  height: 5px;
+  width: 0%;
+  background: #aeaeae;
+  box-shadow: -1px -1px 2px rgba(255, 255, 255, 0.4), 1px 1px 2px rgba(0, 0, 0, 0.4);
+  z-index: 10;
 }
 
 .timerButtons {
