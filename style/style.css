@@ -109,6 +109,8 @@ main {
 
 .nameTodo:focus {
   box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.6), 2px 2px 4px rgba(0, 0, 0, 0.6);
+  caret-shape: block;
+  caret-color: rgba(0, 0, 0, 0.4);
 }
 
 .captionAdd {
@@ -138,6 +140,8 @@ main {
 
 .captionAdd:focus {
   box-shadow: -2px -2px 4px rgba(255, 255, 255, 0.6), 2px 2px 4px rgba(0, 0, 0, 0.6);
+  caret-shape: block;
+  caret-color: rgba(0, 0, 0, 0.4);
 }
 
 .different {
